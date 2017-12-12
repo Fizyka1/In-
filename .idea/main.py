@@ -26,7 +26,7 @@ probability = fnc.calc_probability(sim_settings)
 #main animating function; here random atoms from chain is chosen and then algorithm checks it's possible moves
 def animate(i):
 
-    #stop_param umozliwia kontrole uzytkownika nad postepem symulacji, przerywaniem i wznawianiem
+    #stop_param umozliwia kontrole uzytkownika nad postepem symulacji, przerywaniem i wznawianie
     if sim_settings.stop_param == 0:
         probability = fnc.calc_probability(sim_settings)
         for x in range(sim_settings.speed):
