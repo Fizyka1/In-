@@ -1,5 +1,5 @@
 # coding=utf-8
-import tkinter as Tk
+from tkinter import *
 
 class Settings():
     """Klasa przeznaczona do przechowywania wszystkich ustawin programu"""
@@ -18,22 +18,22 @@ class Settings():
         root.title('Repton model for gel electrophoresis')
 
         #Przyciski do obsługi symulacji
-        self.button_quit = Tk.Button(root,text="Quit",command=quit,width=15)
-        self.button_stop_sim = Tk.Button(root,text="Stop",command=self.stop_sim,width=15)
-        self.button_start_sim = Tk.Button(root,text="Start",command=self.start_sim,width=15)
+        self.button_quit = Button(root,text="Quit",command=quit,width=15)
+        self.button_stop_sim = Button(root,text="Stop",command=self.stop_sim,width=15)
+        self.button_start_sim = Button(root,text="Start",command=self.start_sim,width=15)
 
         #slider manipulujący polem elektrycznym
-        self.slider_field = Tk.Scale(root, from_=0, to=1, resolution=0.05,orient='horizontal',label="Field E:",command=self.field_change,width=15)
+        self.slider_field = Scale(root, from_=0, to=1, resolution=0.05,orient='horizontal',label="Field E:",command=self.field_change,width=15)
         self.slider_field.set(0.2)
 
         #slider manipulujacy predkoscia
-        self.slider_speed = Tk.Scale(root, from_=0, to=300, resolution=30,orient='horizontal',label="Speed:",command=self.speed_change,width=15)
+        self.slider_speed = Scale(root, from_=0, to=300, resolution=30,orient='horizontal',label="Speed:",command=self.speed_change,width=15)
         self.slider_speed.set(30)
 
         #checkbox dodający kolejny łańcuch
-        self.variable_chain_2_checkbutton = Tk.IntVar()
+        self.variable_chain_2_checkbutton = IntVar()
         self.variable_chain_2_checkbutton = 0
-        self.checkbutton_chain_2 = Tk.Checkbutton(root,text="Chain #2",variable=self.variable_chain_2_checkbutton,command=self.add_chain_2,width=10)
+        self.checkbutton_chain_2 = Checkbutton(root,text="Chain #2",variable=self.variable_chain_2_checkbutton,command=self.add_chain_2,width=10)
 
         #dodanie wszystkich elementów do okna w odpowiednich miejscach
         self.slider_field.grid(column=0,row=0,sticky='nw')
