@@ -4,7 +4,7 @@ import tkinter as Tk
 class Settings():
     """Klasa przeznaczona do przechowywania wszystkich ustawin programu"""
 
-    def __init__(self,fig,root):
+    def __init__(self,root):
         """Inicjalizacja ustawien symulacji"""
         #Kluczowe parametry symulacji
         self.field = .2
