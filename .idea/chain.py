@@ -3,18 +3,25 @@ from numpy import arange, zeros
 from random import uniform, randint
 
 class Chain(object):
-    """Klasa zawierająca informacje o pojedyńczym łańcuchu DNA"""
+    """Class contains information about a single DNA chain, its movement and drawing"""
 
-    def __init__(self,chain_len):
+    def __init__(self, sim_settings):
         #informacje o atomie
-        self.chain_len = chain_len
-        self.xLattice = [10.5 for x in range(self.chain_len)]
-        self.yLattice = [0.5 for x in range(self.chain_len)]
+        self.chain_len = sim_settings.chain1_len
+        self.xLattice = [570 for x in range(self.chain_len)]
+        self.yLattice = [580 for x in range(self.chain_len)]
         self.x = arange(1, self.chain_len+1, 1)
-        self.move = 1
+        self.move = 15
+        self.canvas = sim_settings.canvas
+        self.ball = sim_settings.canvas.create_oval(self.xLattice[0],self.xLattice[0],self.yLattice[0],self.yLattice[0],fill="red", outline='red')
+
+    def draw_chain(self):
+        """Drawing fucntion for DNA chain"""
+        self.canvas.move(self.ball,15,15)
+        self.canvas.after(1000, self.draw_chain)
 
     def check_possible_move(self,probability):
-        """Funkcja losująca atom łańcucha, sprawdzająca możliwość ruchu i zmieniająca jego położenie"""
+        """Function checks possible move of random chosen atom in chain"""
         atom_number=randint(0,self.chain_len-1)
         pdb=uniform(0.,2*probability[0]+2*probability[1])
         #sprawdzanie możliwości ruchu wyjątków kiedy atomy na końcu i początku łańcucha mają tylko jednego sąsiada
@@ -126,5 +133,5 @@ class Chain(object):
                         self.yLattice[atom_number]-=self.move
                         self.xLattice[atom_number]+=self.move
     def reset(self):
-        self.xLattice = [10.5 for x in range(self.chain_len)]
-        self.yLattice = [0.5 for x in range(self.chain_len)]
+        self.xLattice = [570 for x in range(self.chain_len)]
+        self.yLattice = [580 for x in range(self.chain_len)]
