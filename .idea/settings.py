@@ -8,7 +8,7 @@ class Settings():
         """Inicjalizacja ustawien symulacji"""
         #Crucial simulation parameters
         self.field = .2
-        self.speed = 100
+        self.speed = 900
         self.chain1_len = 6
         self.chain2_len = 12
         self.stop_param=True
@@ -22,8 +22,8 @@ class Settings():
         #grid drawing
 
         for i in range (100):
-            self.canvas.create_line(0,23+i*30,23+i*30,0)
-            self.canvas.create_line(0,1277-30*i,23+30*i,1300)
+            self.canvas.create_line(0,25+i*30,25+i*30,0)
+            self.canvas.create_line(0,1275-30*i,25+30*i,1300)
 
         #Simulation buttons
         self.button_quit = Button(root,text="Quit",command=quit,width=15)
@@ -35,8 +35,8 @@ class Settings():
         self.slider_field.set(0.2)
 
         #simulation speed slider
-        self.slider_speed = Scale(root, from_=0, to=300, resolution=30,orient='horizontal',label="Speed:",command=self.speed_change,width=15)
-        self.slider_speed.set(30)
+        self.slider_speed = Scale(root, from_=100, to=1000, resolution=30,orient='horizontal',label="Speed:",command=self.speed_change,width=15)
+        self.slider_speed.set(500)
 
         #checkbox for aditional chain
         self.variable_chain_2_checkbutton = IntVar()
