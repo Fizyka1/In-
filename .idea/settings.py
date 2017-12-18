@@ -1,29 +1,34 @@
 # coding=utf-8
-from tkinter import *
+from tkinter import Canvas, Button, Scale, Checkbutton
 
-class Settings():
-    """Klasa przeznaczona do przechowywania wszystkich ustawin programu"""
-
-    def __init__(self,root):
-        """Inicjalizacja ustawien symulacji"""
+class Params():
+    """Class containing simulation parameters such as chain length, speed or else"""
+    def __init__(self):
         #Crucial simulation parameters
         self.field = .2
-        self.speed = 900
+        self.speed = 200
         self.chain1_len = 6
         self.chain2_len = 12
-        self.stop_param=True
+        #window resolution
+        self.width = 1280
+        self.height = 720
+
+class GUI():
+    """User interface class"""
+    def __init__(self,root,params):
+        """Initialization of simulation GUI"""
 
         #window creating
         self.root = root
         root.title('Repton model for gel electrophoresis')
-        self.canvas = Canvas(root,width = 1300,height = 900)
+        self.canvas = Canvas(root,width = params.width,height = params.height)
         self.canvas.grid(row=0, column=1, columnspan=2, rowspan=10,sticky='ewns')
+        self.stop_param=True
 
         #grid drawing
-
         for i in range (100):
-            self.canvas.create_line(0,25+i*30,25+i*30,0)
-            self.canvas.create_line(0,1275-30*i,25+30*i,1300)
+            self.canvas.create_line(0,i*30,i*30,0)
+            self.canvas.create_line(0,params.width-30*i,30*i,params.width)
 
         #Simulation buttons
         self.button_quit = Button(root,text="Quit",command=quit,width=15)
@@ -35,11 +40,10 @@ class Settings():
         self.slider_field.set(0.2)
 
         #simulation speed slider
-        self.slider_speed = Scale(root, from_=100, to=1000, resolution=30,orient='horizontal',label="Speed:",command=self.speed_change,width=15)
-        self.slider_speed.set(500)
+        self.slider_speed = Scale(root, from_=50, to=300, resolution=50,orient='horizontal',label="Speed:",command=self.speed_change,width=15)
+        self.slider_speed.set(params.speed)
 
         #checkbox for aditional chain
-        self.variable_chain_2_checkbutton = IntVar()
         self.variable_chain_2_checkbutton = 0
         self.checkbutton_chain_2 = Checkbutton(root,text="Chain #2",variable=self.variable_chain_2_checkbutton,command=self.add_chain_2,width=10)
 
@@ -51,7 +55,7 @@ class Settings():
         self.button_stop_sim.grid(column=0,row=4,sticky='nw',pady=5)
         self.button_quit.grid(column=0,row=6,pady=5,sticky='nw')
 
-    #funkcje obsługujące przyciski
+    #functions for buttons interactions
     def stop_sim(self):
         self.stop_param=True
     def start_sim(self):
@@ -65,4 +69,3 @@ class Settings():
         self.field = self.slider_field.get()
     def speed_change(self,root):
         self.speed = self.slider_speed.get()
-

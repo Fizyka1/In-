@@ -1,8 +1,7 @@
 # coding=utf-8
-from tkinter import *
+from tkinter import Button, Tk
 import random
-import functions as fnc
-from settings import Settings
+from settings import GUI, Params
 from chain import Chain
 from matplotlib import gridspec
 from time import sleep
@@ -14,17 +13,16 @@ root = Tk()
 
 #Init, creating class objects
 gs = gridspec.GridSpec(0, 3)
-sim_settings = Settings(root)
-chain1 = Chain(sim_settings)
+params = Params()
+user_interface = GUI(root,params)
+chain1 = Chain(user_interface,params)
+chain1.draw_chain()
+chain1.check_possible_move()
 
-#RESET BUTTON
+#Reset button
 def RESET():
     chain1.reset()
 button_reset = Button(root,text="Reset",command=RESET,width=15)
 button_reset.grid(column=0,row=5,sticky='nw')
 
-chain1.draw_chain()
-chain1.check_possible_move()
 root.mainloop()
-
-

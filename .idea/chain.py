@@ -6,38 +6,36 @@ from math import exp
 class Chain(object):
     """Class contains information about a single DNA chain, its movement and drawing"""
 
-    def __init__(self, sim_settings):
-        #informacje o atomie
-        self.sim_settings = sim_settings
-        self.chain_len = sim_settings.chain1_len
+    def __init__(self, user_interface,params):
+        #window
+        self.user_interface = user_interface
+        self.canvas = user_interface.canvas
+        self.root = user_interface.root
+
+        self.probability = [0 for x in range(2)]
+        self.chain_len = params.chain1_len
+        #2D positions
         self.xLattice = [570 for x in range(self.chain_len)]
         self.yLattice = [570 for x in range(self.chain_len)]
+        #1D position
         self.x = arange(1, self.chain_len+1, 1)
+        #atom speed in pixels
         self.move = 15
-        self.canvas = sim_settings.canvas
-        self.probability = [0 for x in range(2)]
-        for i in range (self.sim_settings.chain1_len):
-            ball = sim_settings.canvas.create_oval(self.xLattice[i],self.yLattice[i],self.xLattice[i]+10,self.yLattice[i]+10,fill="grey", outline='grey')
+        self.ball = self.user_interface.canvas.create_oval(self.xLattice[0]+3,self.yLattice[0]+3,self.xLattice[0]+10,self.yLattice[0]+10,fill="grey", outline='grey')
+
     def calc_probability(self):
-        self.probability[0] = exp(self.sim_settings.slider_field.get()/2)
-        self.probability[1] = exp(-self.sim_settings.slider_field.get()/2)
-        self.canvas.after(400, self.draw_chain)
+        """Function calculates probabilities of each direction movement and stores it in 1D-matrix"""
+        self.probability[0] = exp(self.user_interface.slider_field.get()/2)
+        self.probability[1] = exp(-self.user_interface.slider_field.get()/2)
+        self.root.after(400, self.draw_chain)
 
         return probability
-
-
-    def draw_chain(self):
-        """Drawing fucntion for DNA chain"""
-        for i in range (self.sim_settings.chain1_len):
-            ball = self.sim_settings.canvas.create_oval(self.xLattice[i],self.yLattice[i],self.xLattice[i]+10,self.yLattice[i]+10,fill="grey", outline='grey')
-        self.canvas.after(self.sim_settings.slider_speed.get(), self.draw_chain)
 
     def check_possible_move(self):
         """Function checks possible move of random chosen atom in chain"""
         atom_number=randint(0,self.chain_len-1)
         pdb=uniform(0.,2*self.probability[0]+2*self.probability[1])
         #sprawdzanie możliwości ruchu wyjątków kiedy atomy na końcu i początku łańcucha mają tylko jednego sąsiada
-
         if atom_number==0:
             if pdb<=self.probability[0]:
                 #pierwszy atom chce się ruszyć do góry w lewo
@@ -146,5 +144,11 @@ class Chain(object):
                         self.xLattice[atom_number]+=self.move
 
     def reset(self):
-        self.xLattice = [570 for x in range(self.chain_len)]
-        self.yLattice = [570 for x in range(self.chain_len)]
+        self.xLattice = [560 for x in range(self.chain_len)]
+        self.yLattice = [560 for x in range(self.chain_len)]
+
+    def draw_chain(self):
+        """Drawing fucntion for DNA chain"""
+        self.check_possible_move()
+        self.canvas.move(self.ball, 15, -15)
+        self.canvas.after(self.user_interface.slider_speed.get(), self.draw_chain)
