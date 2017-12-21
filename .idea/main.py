@@ -1,10 +1,10 @@
 # coding=utf-8
 from tkinter import Button, Tk
-import random
 from settings import GUI, Params
 from chain import Chain
 from matplotlib import gridspec
 from time import sleep
+import random
 
 #---------End of imports
 #---------------------------

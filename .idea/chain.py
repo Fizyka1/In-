@@ -21,7 +21,11 @@ class Chain(object):
         self.x = arange(1, self.chain_len+1, 1)
         #atom speed in pixels
         self.move = 15
-        self.ball = self.user_interface.canvas.create_oval(self.xLattice[0]+3,self.yLattice[0]+3,self.xLattice[0]+10,self.yLattice[0]+10,fill="grey", outline='grey')
+        self.ball = self.canvas.create_oval(self.xLattice[0]+3,self.yLattice[0]+3,self.xLattice[0]+10,self.yLattice[0]+10,fill="grey", outline='grey')
+
+    def initChain(self):
+        for i in range (0, self.chain_len-1):
+            self.chain[i] = self.canvas.create_oval(self.xLattice[i]+3,self.yLattice[i]+3,self.xLattice[i]+10,self.yLattice[i]+10,fill="grey", outline='grey')
 
     def calc_probability(self):
         """Function calculates probabilities of each direction movement and stores it in 1D-matrix"""
@@ -144,11 +148,12 @@ class Chain(object):
                         self.xLattice[atom_number]+=self.move
 
     def reset(self):
-        self.xLattice = [560 for x in range(self.chain_len)]
-        self.yLattice = [560 for x in range(self.chain_len)]
+        self.xLattice = [570 for x in range(self.chain_len)]
+        self.yLattice = [570 for x in range(self.chain_len)]
 
     def draw_chain(self):
         """Drawing fucntion for DNA chain"""
         self.check_possible_move()
-        self.canvas.move(self.ball, 15, -15)
-        self.canvas.after(self.user_interface.slider_speed.get(), self.draw_chain)
+        if not self.user_interface.stop_param:
+            self.canvas.move(self.ball, 15, -15)
+        self.canvas.after(350-self.user_interface.slider_speed.get(), self.draw_chain)
