@@ -15,14 +15,18 @@ root = Tk()
 gs = gridspec.GridSpec(0, 3)
 params = Params()
 user_interface = GUI(root,params)
-chain1 = Chain(user_interface,params)
+chain1 = Chain(user_interface,params.chain1_len,color="gray")
+chain2 = Chain(user_interface,params.chain2_len,color="red",second=True)
 chain1.draw_chain()
-chain1.check_possible_move()
+chain2.draw_chain()
+
 
 #Reset button
 def RESET():
     chain1.reset()
+    if user_interface.variable_chain_2_checkbutton == 1:
+        chain2.reset()
 button_reset = Button(root,text="Reset",command=RESET,width=15)
-button_reset.grid(column=0,row=5,sticky='nw')
+button_reset.grid(column=0,row=4,sticky='nw')
 
 root.mainloop()
