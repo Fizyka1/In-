@@ -185,14 +185,14 @@ class Chain(object):
                     self.links = [self.canvas.create_line(self.xLattice[i]+self.dxy/2,self.yLattice[i]+self.dxy/2,self.xLattice[i+1]+self.dxy/2,self.yLattice[i+1]+self.dxy/2, fill =self.color,width=self.line_width) for i in range (0,self.chain_len-1)]
                     #self.labels = [self.canvas.create_text((self.xLattice[i]-5, self.yLattice[i]+3), text=str(i)) for i in range (0, self.chain_len)]
                     #for i in range (0, self.chain_len):
-                     #   if i%2==0:
-                     #       self.canvas.move(self.labels[i],17,0)
+                    #   if i%2==0:
+                    #       self.canvas.move(self.labels[i],17,0)
                     self.second = False
 
         #wyłączenie chain2
         if not self.user_interface.variable_chain_2_checkbutton == 1:
-            if not self.second:
-                if self.color == "limegreen":
+            if self.color == "limegreen":
+                if not self.second:
                     for i in range (0, self.chain_len):
                         self.canvas.delete(self.links[i-1])
                         self.canvas.delete(self.chain[i])

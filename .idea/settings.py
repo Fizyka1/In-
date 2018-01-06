@@ -1,6 +1,6 @@
 # coding=utf-8
 from tkinter import Canvas, Button, Scale, Checkbutton, PhotoImage
-
+from sys import platform
 class Params():
     """Class containing simulation parameters such as chain length, speed or else"""
     def __init__(self):
@@ -27,7 +27,15 @@ class GUI():
         #window creating
         self.root = root
         root.title('Repton model for gel electrophoresis')
-        root.state('zoomed')
+
+        #maximizing window despite operating system
+        if platform == 'linux' or platform == 'linux2':
+            root.attributes('-zoomed', True)
+        elif platform == 'win32':
+            root.state('zoomed')
+        else:
+            print('Nie rozpoznaję systemu')
+
         self.canvas = Canvas(root,width = root.winfo_screenwidth(),height = root.winfo_screenheight())
         self.canvas.grid(row=0, column=1, columnspan=2, rowspan=70,sticky='ewns')
         self.stop_param=True
