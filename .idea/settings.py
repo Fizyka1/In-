@@ -1,5 +1,5 @@
 # coding=utf-8
-from tkinter import Canvas, Button, Scale, Checkbutton, PhotoImage
+from tkinter import Canvas, Button, Scale, Checkbutton, PhotoImage, Frame
 from sys import platform
 class Params():
     """Class containing simulation parameters such as chain length, speed or else"""
@@ -37,7 +37,7 @@ class GUI():
             print('Nie rozpoznaję systemu')
 
         self.canvas = Canvas(root,width = root.winfo_screenwidth(),height = root.winfo_screenheight())
-        self.canvas.grid(row=0, column=1, columnspan=2, rowspan=70,sticky='ewns')
+        self.canvas.grid(row=0, column=1, columnspan=1, rowspan=70,sticky='ewns')
         self.stop_param=True
         self.speed = params.speed
 
