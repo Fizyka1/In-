@@ -11,7 +11,6 @@ random.seed(a=None)
 root = Tk()
 
 #Init, creating class objects
-gs = gridspec.GridSpec(0, 3)
 
 params = Params()
 user_interface = GUI(root,params)
@@ -30,7 +29,7 @@ def RESET():
     if user_interface.variable_chain_2_checkbutton == 1:
         chain2.reset()
 
-button_reset = Button(root,image=user_interface.reset_png,command=RESET,width=user_interface.button_size,height=user_interface.button_size)
-button_reset.grid(column=0,row=4,sticky='nw')
+button_reset = Button(user_interface.frame_left_up_lower,image=user_interface.reset_png,command=RESET,width=user_interface.button_size,height=user_interface.button_size)
+button_reset.pack(side='top')
 #starting window mainloop
 root.mainloop()

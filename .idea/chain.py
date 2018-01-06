@@ -19,8 +19,8 @@ class Chain(object):
         self.probability = [0 for x in range(2)]
         self.chain_len = chain_len
         #2D positions
-        self.xLattice = [571.5 for x in range(self.chain_len)]
-        self.yLattice = [571.5 for x in range(self.chain_len)]
+        self.xLattice = [765.5 for x in range(self.chain_len)]
+        self.yLattice = [621.5 for x in range(self.chain_len)]
         self.dxy = 7 #rozmiar kulki
         #1D position
         self.x = arange(1, self.chain_len+1, 1)
@@ -164,8 +164,8 @@ class Chain(object):
 
     def reset(self):
 
-        self.xLattice = [571.5 for x in range(self.chain_len)]
-        self.yLattice = [571.5 for x in range(self.chain_len)]
+        self.xLattice = [765.5 for x in range(self.chain_len)]
+        self.yLattice = [621.5 for x in range(self.chain_len)]
 
         for i in range (0, self.chain_len):
             self.canvas.delete(self.chain[i])

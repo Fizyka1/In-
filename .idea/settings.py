@@ -1,6 +1,7 @@
 # coding=utf-8
 from tkinter import Canvas, Button, Scale, Checkbutton, PhotoImage, Frame
 from sys import platform
+
 class Params():
     """Class containing simulation parameters such as chain length, speed or else"""
     def __init__(self):
@@ -17,6 +18,9 @@ class GUI():
     """User interface class"""
     def __init__(self,root,params):
         """Initialization of simulation GUI"""
+        #params init
+        self.stop_param=True
+        self.speed = params.speed
         #image loading
         self.button_size = 100
         self.stop_png = PhotoImage(file="stop.png")
@@ -35,41 +39,55 @@ class GUI():
             root.state('zoomed')
         else:
             print('Nie rozpoznaję systemu')
+        #creating frames and GUI
+        self.frame_left = Frame(root, borderwidth = 0, relief = 'groove')
+        self.frame_right = Frame(root, borderwidth = 5, relief = 'ridge')
+        self.frame_left_up = Frame(self.frame_left, borderwidth = 0, relief = 'groove')
+        self.frame_left_up_upper = Frame(self.frame_left_up, borderwidth = 0, relief = 'groove')
+        self.frame_left_up_lower = Frame(self.frame_left_up, borderwidth = 0, relief = 'groove')
+        self.frame_left_down = Frame(self.frame_left, borderwidth = 5, relief = 'ridge')
+        self.canvas = Canvas(self.frame_right, width = root.winfo_screenwidth(),height = root.winfo_screenheight())
+        self.canvas1D = Canvas(self.frame_left_down, height = 1200)
+        #major frames
+        self.frame_left.pack(side='left',expand=True)
+        self.frame_right.pack(side='right',expand = True)
+        self.frame_left_up.pack(expand = True, fill = 'both')
+        self.frame_left_down.pack(expand = True, fill = 'both')
+        self.frame_left_up_upper.pack(expand = True, fill = 'both')
+        self.frame_left_up_lower.pack(expand = True, fill = 'both')
 
-        self.canvas = Canvas(root,width = root.winfo_screenwidth(),height = root.winfo_screenheight())
-        self.canvas.grid(row=0, column=1, columnspan=1, rowspan=70,sticky='ewns')
-        self.stop_param=True
-        self.speed = params.speed
-
-        #grid drawing
+        #grid drawing on canvas
         for i in range (110):
             self.canvas.create_line(0,i*30,i*30,0)
             self.canvas.create_line(0,params.width-30*i,30*i,params.width)
 
         #Simulation buttons
-        self.button_quit = Button(root,image=self.exit_png,command=quit,width=self.button_size,height=self.button_size)
-        self.button_start_stop_sim = Button(root,image=self.start_png,command=self.start_stop_sim,width=self.button_size, height=self.button_size)
-        self.button_boost = Button(root,image=self.boost_png,command=self.boost,width=self.button_size, height=self.button_size)
+        self.button_quit = Button(self.frame_left_up_lower,image=self.exit_png,command=quit,width=self.button_size,height=self.button_size)
+        self.button_start_stop_sim = Button(self.frame_left_up_lower,image=self.start_png,command=self.start_stop_sim,width=self.button_size, height=self.button_size)
+        self.button_boost = Button(self.frame_left_up_lower,image=self.boost_png,command=self.boost,width=self.button_size, height=self.button_size)
 
         #electric field slider
-        self.slider_field = Scale(root, from_=0, to=1, resolution=0.05,orient='horizontal',label="Field E:",command=self.field_change,width=15,sliderlength=20)
+        self.slider_field = Scale(self.frame_left_up_upper, from_=0, to=1, resolution=0.05,orient='horizontal',label="Field E:",command=self.field_change,width=15,sliderlength=30, length = 140)
         self.slider_field.set(0.2)
 
         #simulation speed slider
-        self.slider_speed = Scale(root, from_=10, to=100, resolution=10,orient='horizontal',label="Speed:",command=self.speed_change,width=15,sliderlength=20)
+        self.slider_speed = Scale(self.frame_left_up_upper, from_=10, to=100, resolution=10,orient='horizontal',label="Speed:",command=self.speed_change,width=15,sliderlength=30, length = 140)
         self.slider_speed.set(self.speed)
 
         #checkbox for aditional chain
         self.variable_chain_2_checkbutton = 0
-        self.checkbutton_chain_2 = Checkbutton(root,text="Chain #2",variable=self.variable_chain_2_checkbutton,command=self.add_chain_2,width=10)
+        self.checkbutton_chain_2 = Checkbutton(self.frame_left_up_upper,text="Chain #2",variable=self.variable_chain_2_checkbutton,command=self.add_chain_2,width=15,height=2)
 
-        #adding all tools to window screen
-        self.slider_field.grid(column=0,row=0,sticky='nw')
-        self.slider_speed.grid(column=0,row=1,pady=0,sticky='nw')
-        self.checkbutton_chain_2.grid(column=0,row=2,pady=0,sticky='nw')
-        self.button_start_stop_sim.grid(column=0,row=3,pady=0,sticky='nw')
-        self.button_boost.grid(column=0,row=5,pady=0,sticky='nw')
-        self.button_quit.grid(column=0,row=6,pady=0,sticky='nw')
+        #packing all elements
+        self.slider_field.pack(side='left')
+        self.slider_speed.pack(side='left')
+        self.checkbutton_chain_2.pack(side='left')
+        self.button_start_stop_sim.pack(side='right')
+        self.button_boost.pack(side='right')
+        self.button_quit.pack(side='left')
+        self.canvas.pack(fill='both')
+        self.canvas1D.pack(fill='both')
+
 
     #button functions
     def start_stop_sim(self):
