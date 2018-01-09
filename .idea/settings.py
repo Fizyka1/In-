@@ -8,8 +8,8 @@ class Params():
         #Crucial simulation parameters
         self.field = .2
         self.speed = 50
-        self.chain1_len = 5
-        self.chain2_len = 12
+        self.chain1_len = 7
+        self.chain2_len = 20
         #window resolution
         self.width = 1280
         self.height = 720

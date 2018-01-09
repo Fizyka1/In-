@@ -31,10 +31,16 @@ class Chain(object):
         if not self.second:
             self.chain = [self.canvas.create_oval(self.xLattice[i],self.yLattice[i],self.xLattice[i]+self.dxy,self.yLattice[i]+self.dxy,fill=self.color, outline=self.color) for i in range(0,self.chain_len)]
             self.links = [self.canvas.create_line(self.xLattice[i]+self.dxy/2,self.yLattice[i]+self.dxy/2,self.xLattice[i+1]+self.dxy/2,self.yLattice[i+1]+self.dxy/2, fill =self.color,width=self.line_width) for i in range (0,self.chain_len-1)]
-            #self.labels = [self.canvas.create_text((self.xLattice[i]-5, self.yLattice[i]+3), text=str(i)) for i in range (0, self.chain_len)]
-            #for i in range (0, self.chain_len):
-             #   if i%2==0:
-             #       self.canvas.move(self.labels[i],17,0)
+            self.labels = [self.canvas.create_text((self.xLattice[i]-5, self.yLattice[i]+3), text=str(i)) for i in range (0, self.chain_len)]
+            for i in range (0, self.chain_len):
+                if i%4==0:
+                    self.canvas.move(self.labels[i],0,0)
+                elif i%4==1:
+                    self.canvas.move(self.labels[i],9,9)
+                elif i%4==2:
+                    self.canvas.move(self.labels[i],17,0)
+                else:
+                    self.canvas.move(self.labels[i],9,-9)
 
     def draw_links(self):
         for i in range (0, self.chain_len-1):
@@ -53,22 +59,34 @@ class Chain(object):
             self.xLattice[atom_number]-=self.move
             self.yLattice[atom_number]-=self.move
             self.canvas.move(self.chain[atom_number],-self.move,-self.move)
-            #self.canvas.move(self.labels[atom_number],-self.move,-self.move)
+            self.canvas.move(self.labels[atom_number],-self.move,-self.move)
         elif dir == 'ne':
             self.xLattice[atom_number]+=self.move
             self.yLattice[atom_number]-=self.move
             self.canvas.move(self.chain[atom_number],self.move,-self.move)
-           #self.canvas.move(self.labels[atom_number],self.move,-self.move)
+            self.canvas.move(self.labels[atom_number],self.move,-self.move)
         elif dir == 'sw':
             self.xLattice[atom_number]-=self.move
             self.yLattice[atom_number]+=self.move
             self.canvas.move(self.chain[atom_number],-self.move,self.move)
-           #self.canvas.move(self.labels[atom_number],-self.move,self.move)
+            self.canvas.move(self.labels[atom_number],-self.move,self.move)
         else:
             self.xLattice[atom_number]+=self.move
             self.yLattice[atom_number]+=self.move
             self.canvas.move(self.chain[atom_number],self.move,self.move)
-           #self.canvas.move(self.labels[atom_number],self.move,self.move)
+            self.canvas.move(self.labels[atom_number],self.move,self.move)
+
+    def reset(self):
+
+        self.xLattice = [765.5 for x in range(self.chain_len)]
+        self.yLattice = [621.5 for x in range(self.chain_len)]
+
+        for i in range (0, self.chain_len):
+            self.canvas.delete(self.chain[i])
+            self.chain[i] = self.canvas.create_oval(self.xLattice[i],self.yLattice[i],self.xLattice[i]+self.dxy,self.yLattice[i]+self.dxy,fill=self.color, outline=self.color)
+        for i in range (0, self.chain_len-1):
+            self.canvas.delete(self.links[i])
+            self.links[i] = self.canvas.create_line(self.xLattice[i]+self.dxy/2,self.yLattice[i]+self.dxy/2,self.xLattice[i+1]+self.dxy/2,self.yLattice[i+1]+self.dxy/2, fill =self.color,width=self.line_width)
 
     def check_possible_move(self):
         """Function checks possible move of random chosen atom in chain"""
@@ -162,18 +180,6 @@ class Chain(object):
                     if self.yLattice[atom_number]==self.yLattice[atom_number+1] and self.xLattice[atom_number]==self.xLattice[atom_number+1]:
                         self.move_at('se',atom_number)
 
-    def reset(self):
-
-        self.xLattice = [765.5 for x in range(self.chain_len)]
-        self.yLattice = [621.5 for x in range(self.chain_len)]
-
-        for i in range (0, self.chain_len):
-            self.canvas.delete(self.chain[i])
-            self.chain[i] = self.canvas.create_oval(self.xLattice[i],self.yLattice[i],self.xLattice[i]+self.dxy,self.yLattice[i]+self.dxy,fill=self.color, outline=self.color)
-        for i in range (0, self.chain_len-1):
-            self.canvas.delete(self.links[i])
-            self.links[i] = self.canvas.create_line(self.xLattice[i]+self.dxy/2,self.yLattice[i]+self.dxy/2,self.xLattice[i+1]+self.dxy/2,self.yLattice[i+1]+self.dxy/2, fill =self.color,width=self.line_width)
-
     def draw_chain(self):
         """Drawing function for DNA chain"""
         self.calc_probability()
@@ -183,10 +189,11 @@ class Chain(object):
                 if not self.user_interface.stop_param:
                     self.chain = [self.canvas.create_oval(self.xLattice[i],self.yLattice[i],self.xLattice[i]+self.dxy,self.yLattice[i]+self.dxy,fill=self.color, outline=self.color) for i in range(0,self.chain_len)]
                     self.links = [self.canvas.create_line(self.xLattice[i]+self.dxy/2,self.yLattice[i]+self.dxy/2,self.xLattice[i+1]+self.dxy/2,self.yLattice[i+1]+self.dxy/2, fill =self.color,width=self.line_width) for i in range (0,self.chain_len-1)]
-                    #self.labels = [self.canvas.create_text((self.xLattice[i]-5, self.yLattice[i]+3), text=str(i)) for i in range (0, self.chain_len)]
-                    #for i in range (0, self.chain_len):
-                    #   if i%2==0:
-                    #       self.canvas.move(self.labels[i],17,0)
+                    self.labels = [self.canvas.create_text((self.xLattice[i]-5, self.yLattice[i]+3), text=str(i)) for i in range (0, self.chain_len)]
+
+                    for i in range (0, self.chain_len):
+                        if i%2==0:
+                            self.canvas.move(self.labels[i],17,0)
                     self.second = False
 
         #wyłączenie chain2
