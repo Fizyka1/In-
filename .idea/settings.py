@@ -8,7 +8,7 @@ class Params():
         #Crucial simulation parameters
         self.field = .2
         self.speed = 50
-        self.chain1_len = 7
+        self.chain1_len = 6
         self.chain2_len = 20
         #window resolution
         self.width = 1280
@@ -23,6 +23,7 @@ class GUI():
         self.speed = params.speed
         #image loading
         self.button_size = 100
+        self.grid = 40
         self.stop_png = PhotoImage(file="stop.png")
         self.start_png = PhotoImage(file="start.png")
         self.boost_png = PhotoImage(file="boost.png")
@@ -58,8 +59,8 @@ class GUI():
 
         #grid drawing on canvas
         for i in range (110):
-            self.canvas.create_line(0,i*30,i*30,0)
-            self.canvas.create_line(0,params.width-30*i,30*i,params.width)
+            self.canvas.create_line(0,i*self.grid,i*self.grid,0)
+            self.canvas.create_line(0,params.width-self.grid*i,self.grid*i,params.width)
 
         #Simulation buttons
         self.button_quit = Button(self.frame_left_up_lower,image=self.exit_png,command=quit,width=self.button_size,height=self.button_size)
