@@ -19,8 +19,11 @@ class GUI():
     def __init__(self,root,params):
         """Initialization of simulation GUI"""
         #params init
-        self.stop_param=True
+        self.stop_param = True
+        self.drawing_skip = 40
         self.speed = params.speed
+        self.chain1_len = params.chain1_len
+        self.chain2_len = params.chain2_len
         #image loading
         self.button_size = 100
         self.grid = 40
@@ -48,7 +51,7 @@ class GUI():
         self.frame_left_up_lower = Frame(self.frame_left_up, borderwidth = 0, relief = 'groove')
         self.frame_left_down = Frame(self.frame_left, borderwidth = 5, relief = 'ridge')
         self.canvas = Canvas(self.frame_right, width = root.winfo_screenwidth(),height = root.winfo_screenheight())
-        self.canvas1D = Canvas(self.frame_left_down, height = 1200)
+        self.canvas_1D = Canvas(self.frame_left_down, height = 1200)
         #major frames
         self.frame_left.pack(side='left',expand=True)
         self.frame_right.pack(side='right',expand = True)
@@ -87,8 +90,7 @@ class GUI():
         self.button_boost.pack(side='right')
         self.button_quit.pack(side='left')
         self.canvas.pack(fill='both')
-        self.canvas1D.pack(fill='both')
-
+        self.canvas_1D.pack(fill='both')
 
     #button functions
     def start_stop_sim(self):
@@ -108,7 +110,9 @@ class GUI():
     def speed_change(self,root):
         self.speed = self.slider_speed.get()
     def boost(self):
-        self.speed = 100
+
+        self.drawing_skip = 300
         self.field = 0.5
-        self.slider_field.set(0.5)
-        self.slider_speed.set(100)
+        self.speed = 100
+        self.slider_field.set(self.field)
+        self.slider_speed.set(self.speed)
